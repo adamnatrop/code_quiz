@@ -1,5 +1,5 @@
 *{
-    color:white
+    
 }
 
 header {
@@ -32,8 +32,8 @@ a {
     color: black;
 }
 
- #option1, #option2, #option3, #option4 {
-    
+ #optionList-on #option1, #optionList-on #option2, #optionList-on #option3, #optionList-on #option4 {
+    color:white;
     margin: 20px;
     background-color: #363946;
     border-radius: 4px;
@@ -44,3 +44,28 @@ a {
     font-size: 1.5rem;
 }
 
+#optionList-off #option1, #optionList-off #option2, #optionList-off #option3, #optionList-off #option4 {
+    
+    margin: 20px;
+    color:white;
+    border-radius: 4px;
+    padding:2%;
+    padding-left: 25px;
+    padding-right: 75%;
+    font-size: 1.5rem;
+}
+
+#optionList-start #option1  {
+    text-align: center;
+    margin: 20px;
+    background-color: #363946;
+    border-radius: 4px;
+    padding:2%;
+    border: 2px solid black;
+    font-size: 1.5rem;
+    color:white;
+}
+
+ol li:hover {
+    box-shadow: 1px 0px 10px #99a1c5;
+}
