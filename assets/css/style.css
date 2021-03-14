@@ -32,7 +32,7 @@ a {
     color: black;
 }
 
- #optionList #option1, #optionList #option2, #optionList #option3, #optionList #option4 {
+ #start, .button {
     text-align: center;
     color:white;
     margin: 20px;
