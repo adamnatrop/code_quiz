@@ -18,7 +18,7 @@ a {
 }
 
 .question-box {
-    margin: 25% 50%;
+    margin: 10% 25%;
     padding: 2rem;
     margin-left: 25%;
     margin-right:25%;
@@ -32,17 +32,19 @@ a {
     color: black;
 }
 
- #optionList-on #option1, #optionList-on #option2, #optionList-on #option3, #optionList-on #option4 {
+ #optionList #option1, #optionList #option2, #optionList #option3, #optionList #option4 {
+    text-align: center;
     color:white;
     margin: 20px;
     background-color: #363946;
     border-radius: 4px;
     padding:2%;
     padding-left: 25px;
-    padding-right: 75%;
     border: 2px solid black;
     font-size: 1.5rem;
 }
+
+
 
 #optionList-off #option1, #optionList-off #option2, #optionList-off #option3, #optionList-off #option4 {
     
@@ -51,7 +53,6 @@ a {
     border-radius: 4px;
     padding:2%;
     padding-left: 25px;
-    padding-right: 75%;
     font-size: 1.5rem;
 }
 
