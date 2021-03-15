@@ -7,6 +7,7 @@ var gameInfoPTag = document.getElementById('gameInfo');
 var optList = document.getElementById("optionList");
 var startBtn = document.getElementById("start");
 var questionBox = document.getElementById("qBox")
+var initialsForm = document.getElementById("formInitials")
 //var btnContainer = document.getElementById("btnContainer")
 
 
@@ -15,7 +16,7 @@ var questionBox = document.getElementById("qBox")
 
 var questionIndex = 0;
 var highScore = 0;
-
+initialsForm.style.display = "none"
 
 
 
@@ -100,42 +101,73 @@ var questionsArray = [
 
 // Functions for program flow
 
-function screenDisplayReset(displayStatus,){
+function screenDisplayReset(displayStatus){
 
 
-    startBtn.style.display = displayStatus;
-    gameInfoPTag.style.display = displayStatus;
-    questH1Tag.style.display = displayStatus;
+    startBtn.style.display = "block";
+    gameInfoPTag.style.display = "block";
+    questH1Tag.style.display = "block";
     
     startScreenDisplay("none");
 }
 
 
-
-
-function startScreenDisplay(display){
+startBtn.addEventListener("click", function(event) {
+   
     questionIndex = 0;
 
-    startBtn.addEventListener("click", function() {
+    console.log(event)
+
+    startBtn.style.display = "none" ;
+    gameInfoPTag.style.display = "none";
+    questH1Tag.style.display = "none";
     
-        startBtn.style.display = display;
-        gameInfoPTag.style.display = display;
-        questH1Tag.style.display = display;
+    displayQuestion();
+});
+
+
+function endofGame(){
+    // Creates div container to store title and buttons
+    var gameOverContainer = document.createElement("div");
+    gameOverContainer.setAttribute("id", "qBoxContainer");
+    questionBox.appendChild(gameOverContainer);
+
+    // creates p tag and sets to h1 class for styling
+    var h1EndGame = document.createElement("p");
+    h1EndGame.setAttribute("class","h1");
+    h1EndGame.textContent = "GAME OVER"
+    gameOverContainer.appendChild(h1EndGame);
+
+    // creates div tag to display score
+    var score = document.createElement("div");
+    score.setAttribute("class", "h1");
+    score.textContent = "Your Score: " + highScore;
+    gameOverContainer.appendChild(score);
+
+    initialsForm.style.display = "block";
+
+    //creates a div tag, names it playBtn, sets class to button, sets contents to Play Again
+    var playBtn = document.createElement("div");
+    playBtn.setAttribute("class", "button");
+    playBtn.textContent = "Play Again";
+    gameOverContainer.appendChild(playBtn);
+
+    playBtn.addEventListener("click", function(){
+        gameOverContainer.remove();
         displayQuestion();
-    });
+    })
+
 }
 
 
 function displayQuestion(){
-
-    startBtn.removeEventListener("click", function(){});
-
     var quizContainer = document.createElement("div");
     quizContainer.setAttribute("id", "qBoxContainer");
     questionBox.appendChild(quizContainer);
 
-    
-    var question = questionsArray[questionIndex++];
+    //screenDisplayReset("block");
+
+    var question = questionsArray[questionIndex];
     console.log(questionIndex);
 
     var pTag = document.createElement("p");
@@ -143,70 +175,47 @@ function displayQuestion(){
     pTag.textContent = question.qDescription;
     quizContainer.appendChild(pTag);
 
-    
-
     question.answers.forEach(function(item){
         var div = document.createElement("div");
-            div.setAttribute("class", "button");
-            div.textContent = item;
-            
-            quizContainer.appendChild(div);
-            
-            div.addEventListener("click", function(){
-                checkAnswer(item, question.correctAnswer, quizContainer);
-            });
+        div.setAttribute("class", "button");
+        div.textContent = item;
+        
+        quizContainer.appendChild(div);
+        
+        div.addEventListener("click", function(event){
+            checkAnswer(item, question.correctAnswer, quizContainer);
+            event.stopPropagation();
+        });
     });     
 } 
 
-function checkAnswer(userAnswer, correctAnswer, quizContainer,){
-
+function checkAnswer(userAnswer, correctAnswer, quizContainer){
+    quizContainer.remove();
     
-
-        if (userAnswer === correctAnswer){
-            highScore++;
-
-            //console.log(highScore);
-
-            quizContainer.remove();
-
-            if (questionIndex === questionsArray.length){
-
-                startBtn.removeEventListener("click", function(){});
-
-                questionIndex = 0;
-
-                quizContainer.remove();
-
-                screenDisplayReset("block");
-
-            } else {
-
-            displayQuestion();
-            }
-
-        } else {
-
-        
-        }
-
+    if (userAnswer === correctAnswer){
+     highScore++;
     }
+
+    if (questionIndex === questionsArray.length - 1){
+        questionIndex = 0;
+        endofGame();
+        // show high score
+        // end of game stuff
+     } else {
+         questionIndex++;
+         displayQuestion();
+     }
+}
   
-
-
-
 
 function endGameInitials(){
 
 }
 
 
-
-
-
-
 // INITIAL CALL TO START
 
-startScreenDisplay("none"); // set to "block" to display
+//startScreenDisplay("none"); // set to "block" to display
 
 
 
