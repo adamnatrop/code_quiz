@@ -3,7 +3,7 @@
 
 // setting global varaibles for DOM placement 
 var questH1Tag = document.getElementById("question");
-var gameInfoPTag = document.getElementById('gameInfo');
+var gameInfoPTag = document.getElementById('howToInfo');
 var optList = document.getElementById("optionList");
 var startBtn = document.getElementById("start");
 var questionBox = document.getElementById("qBox")
@@ -134,13 +134,13 @@ function endofGame(){
 
     // creates p tag and sets to h1 class for styling
     var h1EndGame = document.createElement("p");
-    h1EndGame.setAttribute("class","h1");
+    h1EndGame.setAttribute("class","gameInfo gameTitle");
     h1EndGame.textContent = "GAME OVER"
     gameOverContainer.appendChild(h1EndGame);
 
     // creates div tag to display score
     var score = document.createElement("div");
-    score.setAttribute("class", "h1");
+    score.setAttribute("class", "gameInfo gameTitle");
     score.textContent = "Your Score: " + highScore;
     gameOverContainer.appendChild(score);
 
@@ -161,6 +161,9 @@ function endofGame(){
 
 
 function displayQuestion(){
+    // hides initials form on second play through
+    initialsForm.style.display = "none";
+
     var quizContainer = document.createElement("div");
     quizContainer.setAttribute("id", "qBoxContainer");
     questionBox.appendChild(quizContainer);
@@ -171,7 +174,7 @@ function displayQuestion(){
     console.log(questionIndex);
 
     var pTag = document.createElement("p");
-    pTag.setAttribute("class","h1");
+    pTag.setAttribute("class","gameInfo gameTitle");
     pTag.textContent = question.qDescription;
     quizContainer.appendChild(pTag);
 
