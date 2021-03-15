@@ -29,35 +29,31 @@ var questionsArray = [
 {
     qDescription: "Which is a custom class in CSS?",
     correctAnswer: ".heading",
-    answers: [".heading", "#heading", "heading", "h1"]
-  
+    answers: [".heading", "#heading", "heading", "h1"],
+    
 },
 
 {
     qDescription: "How do you specify an id in CSS",
     correctAnswer: "Put a # in front of the name",
-    answers: ["Use a class symbol", "Put a # in front of the name", "Anything with a Main Tag", "I like bananas!"]
-   
+    answers: ["Use a class symbol", "Put a # in front of the name", "Anything with a Main Tag", "I like bananas!"],
+    
 },
 
-// {
-//     qDescription: "Why use CSS?",
-//     correctAnswer: "c",
-//     a: "To create animation",
-//     b: "To define a website structure",
-//     c: "To style a website",
-//     d: "To order pizza"
-// },
+{
+    qDescription: "Why use CSS?",
+    correctAnswer: "To style a website",
+    answers: ["To create animation", "To define a website structure", "To style a website", "To order pizza"],
+    
+},
 
-// {
-//     qDescription: "What can you store in a variable?",
-//     correctAnswer: "d",
-//     a: "String data",
-//     b: "Numbers",
-//     c: "Boolean",
-//     d: "All of the above"
-// },
-
+{
+    qDescription: "What can you store in a variable?",
+    correctAnswer: "All of the above",
+    answers: ["String data", "Numbers", "Boolean", "All of the above"],
+    
+},
+]
 // {
 //     qDescription: "What data tyle is a true/false value?",
 //     correctAnswer: "a",
@@ -93,7 +89,7 @@ var questionsArray = [
 //     c: "Create Snappy Styles",
 //     d: "Cascading Style Sheet"
 // }
-]
+
 
 
 
@@ -121,14 +117,21 @@ startBtn.addEventListener("click", function() {
 
 
 function displayQuestion(){
+
     
+    
+    var quizContainer = document.createElement("div");
+    quizContainer.setAttribute("id", "qBox");
+    questionBox.appendChild(quizContainer);
+
     var randomIndex = Math.floor(Math.random() * questionsArray.length);
     var question = questionsArray[randomIndex];
-    
+    console.log(randomIndex);
+
     var pTag = document.createElement("p");
     pTag.setAttribute("class","h1");
     pTag.textContent = question.qDescription;
-    questionBox.appendChild(pTag);
+    quizContainer.appendChild(pTag);
 
     
 
@@ -137,23 +140,42 @@ function displayQuestion(){
             div.setAttribute("class", "button");
             div.textContent = item;
             
-            questionBox.appendChild(div);
+            quizContainer.appendChild(div);
             // div.addEventListener("click", checkAnswer(div.textContent,question.correctAnswer));
             div.addEventListener("click", function(){
-                checkAnswer(item, question.correctAnswer);
+                checkAnswer(item, question.correctAnswer, quizContainer, question.answered, randomIndex);
             });
-    })  ;               
+    })  ;   
+
 }
 
-function checkAnswer(userAnswer, correctAnswer){
+function checkAnswer(userAnswer, correctAnswer, quizContainer, questionAnswered, index){
+
+
     if (userAnswer === correctAnswer){
         highScore++;
-        console.log(highScore);
+
+        //console.log(highScore);
+
+        quizContainer.remove();
+        
+
+        displayQuestion();
+
+    } else {
+
+       
     }
+
+   
+  
+
 }
 
 
+function endGameInitials(){
 
+}
 
 
 
