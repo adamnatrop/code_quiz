@@ -13,7 +13,7 @@ var questionBox = document.getElementById("qBox")
 
 // global variables 
 
-var object = "";
+var questionIndex = 0;
 var highScore = 0;
 
 
@@ -100,33 +100,43 @@ var questionsArray = [
 
 // Functions for program flow
 
+function screenDisplayReset(displayStatus,){
 
 
+    startBtn.style.display = displayStatus;
+    gameInfoPTag.style.display = displayStatus;
+    questH1Tag.style.display = displayStatus;
+    
+    startScreenDisplay("none");
+}
 
 
 
 
 function startScreenDisplay(display){
-startBtn.addEventListener("click", function() {
-    startBtn.style.display = display;
-    gameInfoPTag.style.display = display;
-    questH1Tag.style.display = display;
-    displayQuestion();
-})
+    questionIndex = 0;
+
+    startBtn.addEventListener("click", function() {
+    
+        startBtn.style.display = display;
+        gameInfoPTag.style.display = display;
+        questH1Tag.style.display = display;
+        displayQuestion();
+    });
 }
 
 
 function displayQuestion(){
 
-    
-    
+    startBtn.removeEventListener("click", function(){});
+
     var quizContainer = document.createElement("div");
-    quizContainer.setAttribute("id", "qBox");
+    quizContainer.setAttribute("id", "qBoxContainer");
     questionBox.appendChild(quizContainer);
 
-    var randomIndex = Math.floor(Math.random() * questionsArray.length);
-    var question = questionsArray[randomIndex];
-    console.log(randomIndex);
+    
+    var question = questionsArray[questionIndex++];
+    console.log(questionIndex);
 
     var pTag = document.createElement("p");
     pTag.setAttribute("class","h1");
@@ -141,36 +151,48 @@ function displayQuestion(){
             div.textContent = item;
             
             quizContainer.appendChild(div);
-            // div.addEventListener("click", checkAnswer(div.textContent,question.correctAnswer));
+            
             div.addEventListener("click", function(){
-                checkAnswer(item, question.correctAnswer, quizContainer, question.answered, randomIndex);
+                checkAnswer(item, question.correctAnswer, quizContainer);
             });
-    })  ;   
+    });     
+} 
 
-}
+function checkAnswer(userAnswer, correctAnswer, quizContainer,){
 
-function checkAnswer(userAnswer, correctAnswer, quizContainer, questionAnswered, index){
+    
 
+        if (userAnswer === correctAnswer){
+            highScore++;
 
-    if (userAnswer === correctAnswer){
-        highScore++;
+            //console.log(highScore);
 
-        //console.log(highScore);
+            quizContainer.remove();
 
-        quizContainer.remove();
+            if (questionIndex === questionsArray.length){
+
+                startBtn.removeEventListener("click", function(){});
+
+                questionIndex = 0;
+
+                quizContainer.remove();
+
+                screenDisplayReset("block");
+
+            } else {
+
+            displayQuestion();
+            }
+
+        } else {
+
         
+        }
 
-        displayQuestion();
-
-    } else {
-
-       
     }
-
-   
   
 
-}
+
 
 
 function endGameInitials(){
