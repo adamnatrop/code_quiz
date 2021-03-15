@@ -144,7 +144,10 @@ function endofGame(){
     score.textContent = "Your Score: " + highScore;
     gameOverContainer.appendChild(score);
 
+    // shows form to enter initials
     initialsForm.style.display = "block";
+    // logs form to local storage
+    
 
     //creates a div tag, names it playBtn, sets class to button, sets contents to Play Again
     var playBtn = document.createElement("div");
