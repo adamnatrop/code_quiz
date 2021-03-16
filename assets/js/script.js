@@ -10,6 +10,7 @@ var questionBox = document.getElementById("qBox")
 var initialsForm = document.getElementById("formInitials")
 var initialsInput = document.getElementById("initials");
 var submitBtn = document.getElementById("submitBtn");
+var timer = document.getElementById("timer");
 //var btnContainer = document.getElementById("btnContainer")
 
 
@@ -18,12 +19,12 @@ var submitBtn = document.getElementById("submitBtn");
 
 var questionIndex = 0;
 var highScore = 0;
+var secondsLeft = 0;
+var quizContainer = "";
+var reachedEndGame = false; 
+var timerInterval = "";
+
 initialsForm.style.display = "none"
-
-
-
-
-
 
 // Array for question objects 
 
@@ -94,14 +95,25 @@ var questionsArray = [
 // }
 
 
+// Array for HighScores
+var highScoreObj = 
 
+{
+    players: [],
+    scores: []
+}
 
+highScoreObj = JSON.parse(localStorage.getItem("highScores"));
 
 
 
 
 // starts Quiz 
 startBtn.addEventListener("click", function(event) {
+    //start timer
+    quizTimer();
+    // resets endgametimer call
+    reachedEndGame = false;
     // resets question index for second run through
     questionIndex = 0;
     // turns off start screen elements
@@ -114,12 +126,43 @@ startBtn.addEventListener("click", function(event) {
 
 // submit score and initials
 submitBtn.addEventListener("click", function(){
-    localStorage.setItem("initials", initialsInput.value);
-    localStorage.setItem("score", highScore);
+
+    var player = initialsInput.value;
+
+    highScoreObj.players.push(player);
+    highScoreObj.scores.push(highScore);
+    console.log(highScoreObj);
+
+    localStorage.setItem("highScores", JSON.stringify(highScoreObj));
+    
+   
+
+
 })
+
+function quizTimer(){
+    secondsLeft = 30;
+    timerInterval = setInterval(function(){
+        secondsLeft--;
+        timer.textContent = secondsLeft;
+
+        if (secondsLeft <= 0){
+            // stops the timer and clears it
+            clearInterval(timerInterval);
+            // removes container
+            quizContainer.remove();
+            endofGame();
+        } 
+        
+    },1000)
+}
+
+
+
 
 // END GAME Function
 function endofGame(){
+    
     // Creates div container to store title and buttons
     var gameOverContainer = document.createElement("div");
     gameOverContainer.setAttribute("id", "qBoxContainer");
@@ -148,6 +191,7 @@ function endofGame(){
 
     playBtn.addEventListener("click", function(){
         gameOverContainer.remove();
+        quizTimer();
         displayQuestion();
     })
 }
@@ -158,7 +202,7 @@ function displayQuestion(){
     initialsForm.style.display = "none";
 
     // creates container for question and answers
-    var quizContainer = document.createElement("div");
+    quizContainer = document.createElement("div");
     quizContainer.setAttribute("id", "qBoxContainer");
     questionBox.appendChild(quizContainer);
 
@@ -177,6 +221,9 @@ function displayQuestion(){
         div.setAttribute("class", "button");
         div.textContent = item;
         quizContainer.appendChild(div);
+        
+       
+
         // adds event lister to each div tag button as its created
         div.addEventListener("click", function(event){
             // passes through object info to check answers
@@ -194,16 +241,21 @@ function checkAnswer(userAnswer, correctAnswer, quizContainer){
     if (userAnswer === correctAnswer){
      highScore++;
     }
+    if (userAnswer !== correctAnswer){
+        secondsLeft -= 10;
+    }
     // checks array index to see if it has gone through each question
     if (questionIndex === questionsArray.length - 1){
         questionIndex = 0;
+        clearInterval(timerInterval);
         endofGame();
         
      } else {
          // increase question index and goes back to display next question
          questionIndex++;
          displayQuestion();
-     }
+     } 
+     
 }
   
 
