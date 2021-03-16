@@ -110,6 +110,7 @@ highScoreObj = JSON.parse(localStorage.getItem("highScores"));
 
 // starts Quiz 
 startBtn.addEventListener("click", function(event) {
+   
     //start timer
     quizTimer();
     // resets endgametimer call
@@ -191,6 +192,8 @@ function endofGame(){
 
     playBtn.addEventListener("click", function(){
         gameOverContainer.remove();
+        // reset highscore
+         highScore = 0;
         quizTimer();
         displayQuestion();
     })
