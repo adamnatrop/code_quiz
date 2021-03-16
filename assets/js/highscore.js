@@ -12,19 +12,20 @@ playerScoresArray = JSON.parse(localStorage.getItem("highScores"));
 
 
 
-playerScoresArray.players.forEach(function(item){
+playerScoresArray.forEach(function({player, score}){
+   
+   
     var tableRow = document.createElement("tr");
     highScoreTable.appendChild(tableRow);
     
     var dataPlayer = document.createElement("td");    
-    dataPlayer.textContent = item;
+    dataPlayer.textContent = player;
     tableRow.appendChild(dataPlayer);
 
     var dataScore = document.createElement("td");
     tableRow.appendChild(dataScore);
-
-    // playerScoresArray.scores.forEach(function(score){
-    //     dataScore.textContent = score;
+    dataScore.textContent = score;
+     
        
         
 })

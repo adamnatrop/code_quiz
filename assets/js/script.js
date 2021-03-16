@@ -57,55 +57,40 @@ var questionsArray = [
     answers: ["String data", "Numbers", "Boolean", "All of the above"],
     
 },
-]
-// {
-//     qDescription: "What data tyle is a true/false value?",
-//     correctAnswer: "a",
-//     a: "Boolean",
-//     b: "String",
-//     c: "Array",
-//     d: "Number"
-// },
-
-// {
-//     qDescription: "How can you store mutliple pieces of information?",
-//     correctAnswer: "a",
-//     a: "Use an array",
-//     b: "Use a string value",
-//     c: "Use a boolean",
-//     d: "Use a variable"
-// },
-
-// {
-//     qDescription: "What is HTML",
-//     correctAnswer: "b",
-//     a: "Cascading Stylesheet",
-//     b: "Hyper Text Markup Language",
-//     c: "High Thought Markup Language",
-//     d: "Holy Things Make Life"
-// },
-
-// {
-//     qDescription: "What is CSS?",
-//     correctAnswer: "d",
-//     a: "Hyper Text Markup Language",
-//     b: "Cool Stuff Style",
-//     c: "Create Snappy Styles",
-//     d: "Cascading Style Sheet"
-// }
-
-
-// Array for HighScores
-var highScoreObj = 
 
 {
-    players: [],
-    scores: []
+    qDescription: "What data type is a true/false value?",
+    correctAnswer: "Boolean",
+    answers: ["Boolean","String","Array","Number"]
+    
+},
+
+{
+    qDescription: "How can you store mutliple pieces of information?",
+    correctAnswer: "Use an array",
+    answers: ["Use an array", "Use a string value", "Use a boolean", "Use a variable"]
+  
+},
+
+{
+    qDescription: "What is HTML",
+    correctAnswer: "Hyper Text Markup Language",
+    answers: ["Cascading Stylesheet", "Hyper Text Markup Language", "High Thought Markup Language", "Holy Things Make Life"]
+    
+},
+
+{
+    qDescription: "What is CSS?",
+    correctAnswer: "Cascading Style Sheet",
+    answers: ["Hyper Text Markup Language", "Cool Stuff Style", "Create Snappy Styles", "Cascading Style Sheet"]
 }
+]
 
-highScoreObj = JSON.parse(localStorage.getItem("highScores"));
+// Array for HighScores
 
-
+// this is taking the JSON string and parsing out as an object OR if that is null sets it to an empty array
+    // this is to fix the .push method problem of it not reading as an array 
+var highScoreObj = JSON.parse(localStorage.getItem("highScores")) || [];
 
 
 // starts Quiz 
@@ -118,7 +103,7 @@ startBtn.addEventListener("click", function(event) {
     // resets question index for second run through
     questionIndex = 0;
     // turns off start screen elements
-    startBtn.style.display = "none" ;
+    startBtn.style.display = "none";
     gameInfoPTag.style.display = "none";
     questH1Tag.style.display = "none";
     // goes to questions
@@ -127,43 +112,43 @@ startBtn.addEventListener("click", function(event) {
 
 // submit score and initials
 submitBtn.addEventListener("click", function(){
-
-    var player = initialsInput.value;
-
-    highScoreObj.players.push(player);
-    highScoreObj.scores.push(highScore);
-    console.log(highScoreObj);
-
-    localStorage.setItem("highScores", JSON.stringify(highScoreObj));
+    // logs the player initials and score to an object
+    var playerScoreObj = {
     
-   
-
-
+    player: initialsInput.value,
+    score: highScore
+    }
+    
+    //pushes the player score object into the highscore array
+    highScoreObj.push(playerScoreObj);
+    // sets the highscore object to local storage in a JSON string for the HighScore Page to grab and populate the table
+    localStorage.setItem("highScores", JSON.stringify(highScoreObj));
 })
 
+// starts the timer for the question countdown
 function quizTimer(){
+    // initial starting time
     secondsLeft = 30;
     timerInterval = setInterval(function(){
+        // counts time down
         secondsLeft--;
+        // displays time in the top right
         timer.textContent = secondsLeft;
-
+        // if time is less then 0 or is 0 stop timer
         if (secondsLeft <= 0){
             // stops the timer and clears it
             clearInterval(timerInterval);
             // removes container
             quizContainer.remove();
             endofGame();
-        } 
-        
+        }    
     },1000)
 }
 
 
-
-
 // END GAME Function
 function endofGame(){
-    
+    clearInterval(timerInterval);
     // Creates div container to store title and buttons
     var gameOverContainer = document.createElement("div");
     gameOverContainer.setAttribute("id", "qBoxContainer");
@@ -189,6 +174,7 @@ function endofGame(){
     playBtn.setAttribute("class", "button");
     playBtn.textContent = "Play Again";
     gameOverContainer.appendChild(playBtn);
+
 
     playBtn.addEventListener("click", function(){
         gameOverContainer.remove();
@@ -225,8 +211,6 @@ function displayQuestion(){
         div.textContent = item;
         quizContainer.appendChild(div);
         
-       
-
         // adds event lister to each div tag button as its created
         div.addEventListener("click", function(event){
             // passes through object info to check answers
@@ -257,18 +241,6 @@ function checkAnswer(userAnswer, correctAnswer, quizContainer){
          // increase question index and goes back to display next question
          questionIndex++;
          displayQuestion();
-     } 
-     
+     }    
 }
   
-
-
-
-
-
-
-
-
-
-
-
