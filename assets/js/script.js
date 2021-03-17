@@ -115,8 +115,8 @@ submitBtn.addEventListener("click", function(){
     // logs the player initials and score to an object
     var playerScoreObj = {
     
-    player: initialsInput.value,
-    score: highScore
+        player: initialsInput.value,
+        score: highScore
     }
     
     //pushes the player score object into the highscore array
@@ -128,7 +128,7 @@ submitBtn.addEventListener("click", function(){
 // starts the timer for the question countdown
 function quizTimer(){
     // initial starting time
-    secondsLeft = 30;
+    secondsLeft = 60;
     timerInterval = setInterval(function(){
         // counts time down
         secondsLeft--;
